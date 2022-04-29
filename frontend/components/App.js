@@ -87,8 +87,27 @@ export default function App() {
   }
 
   const updateArticle = ({ article_id, article }) => {
-    // ✨ implement
-    // You got this!
+    setSpinnerOn(true);
+    axiosWithAuth()
+        .put(`${articlesUrl}/${article_id}`, {
+            title: article.title,
+            text: article.text,
+            topic: article.topic,
+        })
+        .then((res) => {
+            setArticles(
+                articles.map((art) => {
+                    return art.article_id === article_id ? res.data.article : art;
+                })
+            );
+            setMessage(res.data.message);
+            setCurrentArticleId();
+        })
+        .catch((err) => {
+            setMessage(err?.response?.data?.message);
+        })
+        .finally(() => setSpinnerOn(false));
+    
   }
 
   const deleteArticle = article_id => {
