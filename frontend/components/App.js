@@ -32,6 +32,21 @@ export default function App() {
   }
 
   const login = ({ username, password }) => {
+    setMessage('');
+      setSpinnerOn(true);
+      axios
+          .post(loginUrl, { username, password })
+          .then((res) => {
+              window.localStorage.setItem('token', res.data.token);
+              setMessage(res.data.message);
+              redirectToArticles();
+          })
+          .catch((err) => {
+              setMessage(err.response.data.message);
+          })
+          .finally(() => {
+              setSpinnerOn(false);
+          });
     // ✨ implement
     // We should flush the message state, turn on the spinner
     // and launch a request to the proper endpoint.
