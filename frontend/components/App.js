@@ -111,7 +111,21 @@ export default function App() {
   }
 
   const deleteArticle = article_id => {
-    // ✨ implement
+    setSpinnerOn(true)
+    axiosWithAuth().delete(`${articlesUrl}/${article_id}`)
+      .then(res => {
+        setMessage(res.data.message)
+        setArticles(articles.filter(art => {
+          return art.article_id !== article_id
+        }))
+      })
+      .catch(err => {
+        setMessage(err?.response?.data?.message)
+      })
+      .finally(() => {
+        setSpinnerOn(false)
+      })
+
   }
 
   return (
@@ -127,7 +141,7 @@ export default function App() {
           <NavLink id="articlesScreen" to="/articles">Articles</NavLink>
         </nav>
         <Routes>
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm login={ login }/>} />
           <Route path="articles" element={
             <>
               <ArticleForm />
