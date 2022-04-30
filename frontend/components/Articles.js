@@ -19,7 +19,7 @@ export default function Articles(props) {
     <div className="articles">
       <h2>Articles</h2>
       {
-        ![].length
+        !articles.length
           ? 'No articles yet'
           : articles.map(art => {
             return (

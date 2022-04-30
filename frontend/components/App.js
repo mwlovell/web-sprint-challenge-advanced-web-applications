@@ -131,8 +131,8 @@ export default function App() {
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <React.StrictMode>
-      <Spinner />
-      <Message />
+      <Spinner on={spinnerOn} />
+      <Message message={message} />
       <button id="logout" onClick={logout}>Logout from app</button>
       <div id="wrapper" style={{ opacity: spinnerOn ? "0.25" : "1" }}> {/* <-- do not change this line */}
         <h1>Advanced Web Applications</h1>
@@ -144,8 +144,20 @@ export default function App() {
           <Route path="/" element={<LoginForm login={ login }/>} />
           <Route path="articles" element={
             <>
-              <ArticleForm />
-              <Articles />
+              <ArticleForm
+                  article={articles.find((art) => {
+                    return art.article_id === currentArticleId;
+                  })}
+                  postArticle={postArticle}
+                  setCurrentArticleId={setCurrentArticleId}
+                  updateArticle={updateArticle}
+              />
+              <Articles
+                  getArticles={getArticles}
+                  articles={articles}
+                  deleteArticle={deleteArticle}
+                  setCurrentArticleId={setCurrentArticleId}
+              />
             </>
           } />
         </Routes>
